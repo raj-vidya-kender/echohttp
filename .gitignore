@@ -1,0 +1,52 @@
+# Go specific
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Go workspace specific
+go.work
+
+# IDE specific
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# React/Node specific
+ui/node_modules/
+ui/dist/
+ui/.env
+ui/.env.local
+ui/.env.development.local
+ui/.env.test.local
+ui/.env.production.local
+ui/npm-debug.log*
+ui/yarn-debug.log*
+ui/yarn-error.log*
+ui/.pnp
+ui/.pnp.js
+ui/coverage/
+ui/build/
+ui/.next/
+ui/.nuxt/
+ui/dist/
+ui/.cache/
+ui/.eslintcache
+ui/.yarn/install-state.gz
+
+# TypeScript specific
+ui/*.tsbuildinfo
+ui/.tmp/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# binary
+echohttp

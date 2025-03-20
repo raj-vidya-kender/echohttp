@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf ui/dist
+      - rm -rf ui/node_modules
+      - go clean
+
+  build:ui:
+    desc: Build the React frontend
+    internal: true
+    cmds:
+      - cd ui && yarn install
+      - cd ui && yarn build
+
+  build:go:
+    desc: Build the Go backend
+    internal: true
+    deps: [build:ui]
+    cmds:
+      - go build -o echohttp
+
+  build:
+    desc: Build both frontend and backend
+    deps: [build:go]
+
+  run:
+    desc: Run the application
+    cmds:
+      - go run main.go

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface RequestData {
   timestamp: string;
@@ -13,16 +13,16 @@ export function RequestList() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch('/echo');
+        const response = await fetch("/echo");
         if (!response.ok) {
           const errorText = await response.text();
-          throw new Error(errorText || 'Failed to fetch requests');
+          throw new Error(errorText || "Failed to fetch requests");
         }
         const data = await response.json();
         setRequests(data);
         setError(null); // Clear any previous errors
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : "An error occurred");
         setRequests([]); // Clear requests on error
       }
     };
@@ -34,7 +34,7 @@ export function RequestList() {
   }, []);
 
   const formatData = (data: any): string => {
-    if (typeof data === 'string') {
+    if (typeof data === "string") {
       try {
         // Try to parse as JSON
         const parsed = JSON.parse(data);
@@ -84,7 +84,9 @@ export function RequestList() {
                           {leftHeaders.map(([key, values]) => (
                             <div key={key} className="header-row">
                               <div className="header-key">{key}</div>
-                              <div className="header-value">{values.join(', ')}</div>
+                              <div className="header-value">
+                                {values.join(", ")}
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -92,7 +94,9 @@ export function RequestList() {
                           {rightHeaders.map(([key, values]) => (
                             <div key={key} className="header-row">
                               <div className="header-key">{key}</div>
-                              <div className="header-value">{values.join(', ')}</div>
+                              <div className="header-value">
+                                {values.join(", ")}
+                              </div>
                             </div>
                           ))}
                         </div>

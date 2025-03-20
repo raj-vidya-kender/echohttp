@@ -2,13 +2,15 @@
 
 A simple web application that captures and displays HTTP requests
 in real-time. The application consists of a Go backend server that
-stores requests in memory and a React frontend that displays the
+stores requests in SQLite and a React frontend that displays the
 requests in a clean, modern UI.
 
 ## Prerequisites
 
 - Go 1.24 or later
-- Node.js and Yarn
+- Node.js 22 or later
+- Yarn 4.7.0 or later (using Plug'n'Play)
+- SQLite 3
 - Task (task runner) - [Installation Guide](https://taskfile.dev/installation/)
 
 ## Building the Project
@@ -23,6 +25,11 @@ The project uses Taskfile for build automation. Here are the available commands:
 2. Build everything (both frontend and backend):
    ```bash
    task build
+   ```
+
+3. Format the code:
+   ```bash
+   task format              # Format both frontend and backend
    ```
 
 ## Running the Application
@@ -45,7 +52,7 @@ The project uses Taskfile for build automation. Here are the available commands:
 
 ### POST /echo
 - Accepts any JSON payload
-- Stores the request with timestamp and headers
+- Stores the request with timestamp and headers in SQLite
 - Returns a success message
 
 Example:
@@ -56,8 +63,9 @@ curl -X POST http://localhost:8025/echo \
 ```
 
 ### GET /echo
-- Returns all stored requests in reverse chronological order
+- Returns all stored requests in reverse chronological order from SQLite
 - Format: JSON array of request objects
+- Returns an empty array if no requests are stored
 
 Example:
 ```bash

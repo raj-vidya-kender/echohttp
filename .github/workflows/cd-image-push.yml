@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: Push Image to GHCR registry
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: echohttp
 
 jobs:
-  build-and-push:
+  cd-image-push:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -43,7 +43,7 @@ jobs:
             type=sha,format=long
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v6.15.0
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}

@@ -15,12 +15,15 @@ export function RequestList() {
       try {
         const response = await fetch('/echo');
         if (!response.ok) {
-          throw new Error('Failed to fetch requests');
+          const errorText = await response.text();
+          throw new Error(errorText || 'Failed to fetch requests');
         }
         const data = await response.json();
         setRequests(data);
+        setError(null); // Clear any previous errors
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
+        setRequests([]); // Clear requests on error
       }
     };
 
@@ -45,7 +48,12 @@ export function RequestList() {
   };
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return (
+      <div className="error">
+        <h3>Error</h3>
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (

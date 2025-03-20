@@ -71,7 +71,7 @@ func (s *echoServer) handleGet(w http.ResponseWriter, _ *http.Request) {
 	}
 	defer rows.Close()
 
-	var requests []requestData
+	requests := []requestData{}
 	for rows.Next() {
 		var req requestData
 		var headersJSON string
@@ -112,12 +112,10 @@ func (s *echoServer) handlePost(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	// Insert the request into the database
 	_, err = s.db.Exec(`
 		INSERT INTO requests (timestamp, data, headers)
 		VALUES (?, ?, ?)
 	`, time.Now(), string(body), string(headersJSON))
-
 	if err != nil {
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		log.Printf("Database error: %v", err)
@@ -133,7 +131,6 @@ func main() {
 		port = "8025"
 	}
 
-	// Initialize SQLite database
 	db, err := sql.Open("sqlite3", "echo.db")
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
@@ -141,36 +138,27 @@ func main() {
 	defer db.Close()
 
 	server := &echoServer{db: db}
-
-	// Initialize the database schema
 	if err := server.initDB(); err != nil {
 		log.Fatalf("error initializing database: %v", err)
 	}
 
-	// Create a new HTTP server
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
 		Handler: nil, // Will be set below
 	}
 
-	// Create a channel to listen for errors coming from the server
-	serverErrors := make(chan error, 1)
-
-	// Create a channel to listen for OS signals
-	shutdown := make(chan os.Signal, 1)
-	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
-
 	// Set up routes
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.FS(ui.Assets()))))
 	http.HandleFunc("/echo", server.handleRequests)
 
-	// Start the server in a goroutine
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+	serverErrors := make(chan error, 1)
 	go func() {
 		log.Printf("Server starting on %s", srv.Addr)
 		serverErrors <- srv.ListenAndServe()
 	}()
 
-	// Blocking select waiting for either a signal or server error
 	select {
 	case err := <-serverErrors:
 		log.Printf("Server error: %v", err)

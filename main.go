@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -13,19 +14,34 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/raj-vidya-kender/echohttp/ui"
 )
 
 type requestData struct {
+	ID        int64       `json:"id"`
 	Timestamp time.Time   `json:"timestamp"`
-	Data      any         `json:"data"`
+	Data      string      `json:"data"`
 	Headers   http.Header `json:"headers"`
 }
 
 // echoServer holds the application state
 type echoServer struct {
-	requests []requestData
-	mu       sync.RWMutex
+	db *sql.DB
+	mu sync.RWMutex
+}
+
+func (s *echoServer) initDB() error {
+	// Create the requests table if it doesn't exist
+	_, err := s.db.Exec(`
+		CREATE TABLE IF NOT EXISTS requests (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			timestamp DATETIME NOT NULL,
+			data TEXT NOT NULL,
+			headers TEXT NOT NULL
+		)
+	`)
+	return err
 }
 
 func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
@@ -39,15 +55,39 @@ func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *echoServer) handleGet(w http.ResponseWriter, r *http.Request) {
+func (s *echoServer) handleGet(w http.ResponseWriter, _ *http.Request) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
-	// Return the requests in reverse chronological order
-	requests := make([]requestData, len(s.requests))
-	copy(requests, s.requests)
-	for i, j := 0, len(requests)-1; i < j; i, j = i+1, j-1 {
-		requests[i], requests[j] = requests[j], requests[i]
+	rows, err := s.db.Query(`
+		SELECT id, timestamp, data, headers
+		FROM requests
+		ORDER BY timestamp DESC
+	`)
+	if err != nil {
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		log.Printf("Database error: %v", err)
+		return
+	}
+	defer rows.Close()
+
+	var requests []requestData
+	for rows.Next() {
+		var req requestData
+		var headersJSON string
+		err := rows.Scan(&req.ID, &req.Timestamp, &req.Data, &headersJSON)
+		if err != nil {
+			log.Printf("Error scanning row: %v", err)
+			continue
+		}
+
+		// Parse headers from JSON
+		if err := json.Unmarshal([]byte(headersJSON), &req.Headers); err != nil {
+			log.Printf("Error parsing headers: %v", err)
+			continue
+		}
+
+		requests = append(requests, req)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -62,15 +102,27 @@ func (s *echoServer) handlePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqData := requestData{
-		Timestamp: time.Now(),
-		Data:      string(body),
-		Headers:   r.Header,
+	// Convert headers to JSON for storage
+	headersJSON, err := json.Marshal(r.Header)
+	if err != nil {
+		http.Error(w, "Error processing headers", http.StatusInternalServerError)
+		return
 	}
 
 	s.mu.Lock()
-	s.requests = append(s.requests, reqData)
-	s.mu.Unlock()
+	defer s.mu.Unlock()
+
+	// Insert the request into the database
+	_, err = s.db.Exec(`
+		INSERT INTO requests (timestamp, data, headers)
+		VALUES (?, ?, ?)
+	`, time.Now(), string(body), string(headersJSON))
+
+	if err != nil {
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		log.Printf("Database error: %v", err)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 }
@@ -81,7 +133,19 @@ func main() {
 		port = "8025"
 	}
 
-	server := &echoServer{requests: make([]requestData, 0)}
+	// Initialize SQLite database
+	db, err := sql.Open("sqlite3", "echo.db")
+	if err != nil {
+		log.Fatalf("error opening database: %v", err)
+	}
+	defer db.Close()
+
+	server := &echoServer{db: db}
+
+	// Initialize the database schema
+	if err := server.initDB(); err != nil {
+		log.Fatalf("error initializing database: %v", err)
+	}
 
 	// Create a new HTTP server
 	srv := &http.Server{

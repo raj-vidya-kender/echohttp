@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer ring with gradient -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00e5ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="190" fill="none" stroke="url(#gradient)" stroke-width="8" opacity="0.2"/>
+
+  <!-- Echo waves -->
+  <circle cx="200" cy="200" r="160" fill="none" stroke="url(#gradient)" stroke-width="4" stroke-dasharray="6 6" opacity="0.3"/>
+  <circle cx="200" cy="200" r="130" fill="none" stroke="url(#gradient)" stroke-width="4" stroke-dasharray="6 6" opacity="0.4"/>
+  <circle cx="200" cy="200" r="100" fill="none" stroke="url(#gradient)" stroke-width="4" stroke-dasharray="6 6" opacity="0.5"/>
+
+  <!-- Center node -->
+  <circle cx="200" cy="200" r="50" fill="url(#gradient)" opacity="0.9"/>
+
+  <!-- HTTP text -->
+  <text x="200" y="210" font-family="monospace" font-size="32" fill="#ffffff" text-anchor="middle" font-weight="bold">HTTP</text>
+
+  <!-- Connection lines -->
+  <line x1="200" y1="150" x2="200" y2="100" stroke="url(#gradient)" stroke-width="3"/>
+  <line x1="200" y1="250" x2="200" y2="300" stroke="url(#gradient)" stroke-width="3"/>
+  <line x1="150" y1="200" x2="100" y2="200" stroke="url(#gradient)" stroke-width="3"/>
+  <line x1="250" y1="200" x2="300" y2="200" stroke="url(#gradient)" stroke-width="3"/>
+
+  <!-- Arrow heads -->
+  <path d="M200 90 L190 100 L210 100 Z" fill="url(#gradient)"/>
+  <path d="M200 310 L190 300 L210 300 Z" fill="url(#gradient)"/>
+  <path d="M90 200 L100 190 L100 210 Z" fill="url(#gradient)"/>
+  <path d="M310 200 L300 190 L300 210 Z" fill="url(#gradient)"/>
+
+  <!-- Decorative dots -->
+  <circle cx="200" cy="100" r="4" fill="#ffffff"/>
+  <circle cx="200" cy="300" r="4" fill="#ffffff"/>
+  <circle cx="100" cy="200" r="4" fill="#ffffff"/>
+  <circle cx="300" cy="200" r="4" fill="#ffffff"/>
+</svg>

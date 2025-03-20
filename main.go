@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/raj-vidya-kender/echohttp/ui"
@@ -80,15 +83,47 @@ func main() {
 
 	server := &echoServer{requests: make([]requestData, 0)}
 
-	// Serve static files from the ui/dist directory
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.FS(ui.Assets()))))
+	// Create a new HTTP server
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%s", port),
+		Handler: nil, // Will be set below
+	}
 
-	// API endpoint for both GET and POST
+	// Create a channel to listen for errors coming from the server
+	serverErrors := make(chan error, 1)
+
+	// Create a channel to listen for OS signals
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+
+	// Set up routes
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.FS(ui.Assets()))))
 	http.HandleFunc("/echo", server.handleRequests)
 
-	addr := fmt.Sprintf(":%s", port)
-	log.Printf("Server starting on %s", addr)
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatalf("Server failed to start: %v", err)
+	// Start the server in a goroutine
+	go func() {
+		log.Printf("Server starting on %s", srv.Addr)
+		serverErrors <- srv.ListenAndServe()
+	}()
+
+	// Blocking select waiting for either a signal or server error
+	select {
+	case err := <-serverErrors:
+		log.Printf("Server error: %v", err)
+
+	case sig := <-shutdown:
+		log.Printf("Received signal %v, initiating graceful shutdown...", sig)
+
+		// Create a context with timeout for graceful shutdown
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		// Attempt graceful shutdown
+		if err := srv.Shutdown(ctx); err != nil {
+			log.Printf("Could not stop server gracefully: %v", err)
+			panic(err)
+		}
+
+		log.Println("Server stopped gracefully")
 	}
 }

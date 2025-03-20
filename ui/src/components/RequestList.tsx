@@ -30,6 +30,20 @@ export function RequestList() {
     return () => clearInterval(interval);
   }, []);
 
+  const formatData = (data: any): string => {
+    if (typeof data === 'string') {
+      try {
+        // Try to parse as JSON
+        const parsed = JSON.parse(data);
+        return JSON.stringify(parsed, null, 2);
+      } catch {
+        // If not JSON, return as is
+        return data;
+      }
+    }
+    return JSON.stringify(data, null, 2);
+  };
+
   if (error) {
     return <div className="error">Error: {error}</div>;
   }
@@ -46,11 +60,38 @@ export function RequestList() {
                 {new Date(request.timestamp).toLocaleString()}
               </div>
               <div className="data">
-                <pre>{JSON.stringify(request.data, null, 2)}</pre>
+                <pre>{formatData(request.data)}</pre>
               </div>
               <div className="headers">
-                <h4>Headers:</h4>
-                <pre>{JSON.stringify(request.headers, null, 2)}</pre>
+                <h4>Headers</h4>
+                <div className="headers-grid">
+                  {(() => {
+                    const entries = Object.entries(request.headers);
+                    const midPoint = Math.ceil(entries.length / 2);
+                    const leftHeaders = entries.slice(0, midPoint);
+                    const rightHeaders = entries.slice(midPoint);
+                    return (
+                      <div className="headers-columns">
+                        <div className="headers-column">
+                          {leftHeaders.map(([key, values]) => (
+                            <div key={key} className="header-row">
+                              <div className="header-key">{key}</div>
+                              <div className="header-value">{values.join(', ')}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="headers-column">
+                          {rightHeaders.map(([key, values]) => (
+                            <div key={key} className="header-row">
+                              <div className="header-key">{key}</div>
+                              <div className="header-value">{values.join(', ')}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
               </div>
             </div>
           ))}

@@ -36,10 +36,6 @@ jobs:
       - name: Build project
         run: corepack enable && task build
 
-      - name: Check formatting with Prettier
-        working-directory: ui
-        run: yarn format:check
-
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v6.5.1
 

@@ -22,14 +22,4 @@ linters-settings:
     min-occurrences: 3
 
 run:
-  deadline: 5m
   tests: true
-
-issues:
-  exclude-dirs:
-    - ui/
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gosec
-        - errcheck

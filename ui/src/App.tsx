@@ -1,5 +1,5 @@
-import { RequestList } from './components/RequestList'
-import './App.css'
+import { RequestList } from "./components/RequestList";
+import "./App.css";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <RequestList />
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

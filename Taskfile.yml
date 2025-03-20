@@ -8,6 +8,21 @@ tasks:
       - rm -rf ui/node_modules
       - go clean
 
+  build:
+    desc: Build both frontend and backend
+    deps: [build:go]
+
+  run:
+    desc: Run the application
+    cmds:
+      - go run main.go
+
+  format:
+    desc: Format all code (frontend and backend)
+    cmds:
+      - cd ui && yarn format
+      - go fmt ./...
+
   build:ui:
     desc: Build the React frontend
     internal: true
@@ -21,12 +36,3 @@ tasks:
     deps: [build:ui]
     cmds:
       - go build -o echohttp
-
-  build:
-    desc: Build both frontend and backend
-    deps: [build:go]
-
-  run:
-    desc: Run the application
-    cmds:
-      - go run main.go

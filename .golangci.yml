@@ -1,0 +1,35 @@
+linters:
+  enable:
+    - gofmt
+    - govet
+    - gosimple
+    - staticcheck
+    - errcheck
+    - ineffassign
+    - typecheck
+    - misspell
+    - gocyclo
+    - gosec
+    - unconvert
+    - goconst
+    - prealloc
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+
+run:
+  deadline: 5m
+  tests: true
+
+issues:
+  exclude-dirs:
+    - ui/
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gosec
+        - errcheck

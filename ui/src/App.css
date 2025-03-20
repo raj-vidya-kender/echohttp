@@ -15,12 +15,15 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
   overflow: hidden;
 }
 
@@ -134,7 +137,8 @@ main {
   margin: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-family:
+    "Monaco", "Menlo", "Ubuntu Mono", Consolas, source-code-pro, monospace;
   font-size: 1.27rem;
   color: var(--text-color);
   line-height: 1.5;
@@ -192,20 +196,23 @@ main {
 .header-key {
   font-weight: 600;
   color: var(--accent-color);
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-family:
+    "Monaco", "Menlo", "Ubuntu Mono", Consolas, source-code-pro, monospace;
   font-size: 0.85rem;
 }
 
 .header-value {
   color: var(--text-color);
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-family:
+    "Monaco", "Menlo", "Ubuntu Mono", Consolas, source-code-pro, monospace;
   font-size: 0.85rem;
   word-break: break-all;
 }
 
 .header-value-right {
   color: var(--text-color);
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-family:
+    "Monaco", "Menlo", "Ubuntu Mono", Consolas, source-code-pro, monospace;
   font-size: 0.85rem;
   word-break: break-all;
   text-align: right;
@@ -258,7 +265,8 @@ main {
     font-size: 0.65rem;
   }
 
-  .header-value, .header-value-right {
+  .header-value,
+  .header-value-right {
     font-size: 0.65rem;
   }
 }

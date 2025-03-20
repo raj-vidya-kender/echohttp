@@ -1,0 +1,16 @@
+# Yarn PnP files
+.pnp.*
+.yarn/
+
+# Build output
+dist/
+
+# Node modules (if ever used)
+node_modules/
+
+# Generated TypeScript files
+*.d.ts
+*.d.ts.map
+
+# Cache
+.cache/

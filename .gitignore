@@ -1,4 +1,4 @@
-# Go specific
+# Go
 *.exe
 *.exe~
 *.dll
@@ -6,20 +6,46 @@
 *.dylib
 *.test
 *.out
-go.work
+/vendor/
 
-# Go workspace specific
-go.work
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
 
-# IDE specific
-.idea/
-.vscode/
-*.swp
-*.swo
+# Yarn Berry (in ui directory)
+ui/.yarn/*
+!ui/.yarn/cache
+!ui/.yarn/patches
+!ui/.yarn/plugins
+!ui/.yarn/releases
+!ui/.yarn/sdks
+!ui/.yarn/versions
+
+# Build output
+ui/dist/
+
+# Node modules (if ever used)
+ui/node_modules/
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # React/Node specific
-ui/node_modules/
 ui/dist/
 ui/.env
 ui/.env.local
@@ -35,17 +61,11 @@ ui/coverage/
 ui/build/
 ui/.next/
 ui/.nuxt/
-ui/dist/
 ui/.cache/
 ui/.eslintcache
 ui/.yarn/install-state.gz
 
-# TypeScript specific
-ui/*.tsbuildinfo
-ui/.tmp/
-
 # System Files
-.DS_Store
 Thumbs.db
 
 # binary

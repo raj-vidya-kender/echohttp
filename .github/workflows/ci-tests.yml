@@ -37,7 +37,7 @@ jobs:
         run: corepack enable && task build
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6.5.1
+        uses: golangci/golangci-lint-action@v7.0.0
 
       - name: Install SQLite
         run: sudo apt-get update && sudo apt-get install -y sqlite3 libsqlite3-dev

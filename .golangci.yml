@@ -1,25 +1,37 @@
-linters:
-  enable:
-    - gofmt
-    - govet
-    - gosimple
-    - staticcheck
-    - errcheck
-    - ineffassign
-    - typecheck
-    - misspell
-    - gocyclo
-    - gosec
-    - unconvert
-    - goconst
-    - prealloc
-
-linters-settings:
-  gocyclo:
-    min-complexity: 15
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-
+version: "2"
 run:
   tests: true
+linters:
+  enable:
+    - goconst
+    - gocyclo
+    - gosec
+    - misspell
+    - prealloc
+    - unconvert
+  settings:
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocyclo:
+      min-complexity: 15
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

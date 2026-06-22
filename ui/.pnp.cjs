@@ -34,7 +34,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:9.31.0"],\
           ["eslint-plugin-react-hooks", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:5.2.0"],\
           ["eslint-plugin-react-refresh", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:0.5.0"],\
-          ["globals", "npm:16.3.0"],\
+          ["globals", "npm:17.7.0"],\
           ["prettier", "npm:3.8.1"],\
           ["react", "npm:19.2.4"],\
           ["react-dom", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:19.2.4"],\
@@ -2382,10 +2382,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:16.3.0", {\
-        "packageLocation": "../../../.yarn/berry/cache/globals-npm-16.3.0-d099b11ba2-10c0.zip/node_modules/globals/",\
+      ["npm:17.7.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/globals-npm-17.7.0-b005e29e29-10c0.zip/node_modules/globals/",\
         "packageDependencies": [\
-          ["globals", "npm:16.3.0"]\
+          ["globals", "npm:17.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3454,7 +3454,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:9.31.0"],\
           ["eslint-plugin-react-hooks", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:5.2.0"],\
           ["eslint-plugin-react-refresh", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:0.5.0"],\
-          ["globals", "npm:16.3.0"],\
+          ["globals", "npm:17.7.0"],\
           ["prettier", "npm:3.8.1"],\
           ["react", "npm:19.2.4"],\
           ["react-dom", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:19.2.4"],\

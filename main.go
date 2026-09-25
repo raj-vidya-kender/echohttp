@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -50,8 +51,11 @@ func (s *echoServer) initDB() error {
 }
 
 func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
+	remoteAddr := strings.ReplaceAll(strings.ReplaceAll(r.RemoteAddr, "\n", ""), "\r", "")
+	method := strings.ReplaceAll(strings.ReplaceAll(r.Method, "\n", ""), "\r", "")
+
 	if r.Method != http.MethodGet && r.Method != http.MethodPost {
-		log.Printf("[ERROR] method not allowed: %s from %s", r.Method, r.RemoteAddr)
+		log.Printf("[ERROR] method not allowed: %s from %s", method, remoteAddr)
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
@@ -65,7 +69,7 @@ func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
 					log.Printf("[ERROR] failed to encode empty response: %v", err)
 					http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 				}
-				log.Printf("[INFO] get request from %s: no records found", r.RemoteAddr)
+				log.Printf("[INFO] get request from %s: no records found", remoteAddr)
 				return
 			}
 			log.Printf("[ERROR] database query failed: %v", err)
@@ -107,7 +111,7 @@ func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 			return
 		}
-		log.Printf("[INFO] get request from %s: retrieved %d requests", r.RemoteAddr, len(requests))
+		log.Printf("[INFO] get request from %s: retrieved %d requests", remoteAddr, len(requests))
 		return
 	}
 
@@ -141,12 +145,12 @@ func (s *echoServer) handleRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("[INFO] post request from %s: stored request with body size %d bytes", r.RemoteAddr, len(body))
+	log.Printf("[INFO] post request from %s: stored request with body size %d bytes", remoteAddr, len(body))
 	w.WriteHeader(http.StatusOK)
 }
 
 func main() {
-	port := os.Getenv("HTTP_PORT")
+	port := strings.ReplaceAll(strings.ReplaceAll(os.Getenv("HTTP_PORT"), "\n", ""), "\r", "")
 	if port == "" {
 		port = "8025"
 	}

@@ -7,9 +7,9 @@ requests in a clean, modern UI.
 
 ## Prerequisites
 
-- Go 1.24 or later
-- Node.js 22 or later
-- Yarn 4.7.0 or later (using Plug'n'Play)
+- Go 1.27 or later
+- Node.js 24 or later
+- Yarn 4.18.1 or later
 - SQLite 3
 - Task (task runner) - [Installation Guide](https://taskfile.dev/installation/)
 

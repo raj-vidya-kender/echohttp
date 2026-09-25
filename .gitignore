@@ -13,61 +13,52 @@
 *.sqlite
 *.sqlite3
 
-# Yarn Berry (in ui directory)
+# Yarn / Node
 ui/.yarn/*
-!ui/.yarn/cache
 !ui/.yarn/patches
 !ui/.yarn/plugins
 !ui/.yarn/releases
 !ui/.yarn/sdks
 !ui/.yarn/versions
+ui/.yarn/install-state.gz
+ui/.pnp.*
+ui/node_modules/
 
 # Build output
 ui/dist/
+ui/coverage/
+ui/build/
 
-# Node modules (if ever used)
-ui/node_modules/
-
-# TypeScript
+# TypeScript / Vite generated artifacts
 *.tsbuildinfo
+ui/vite.config.js
+ui/vite.config.d.ts
 
 # Cache
 .cache/
+ui/.cache/
+ui/.eslintcache
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# React/Node specific
-ui/dist/
+# Env / logs
 ui/.env
 ui/.env.local
-ui/.env.development.local
-ui/.env.test.local
-ui/.env.production.local
+ui/.env.*.local
 ui/npm-debug.log*
 ui/yarn-debug.log*
 ui/yarn-error.log*
-ui/.pnp
-ui/.pnp.js
-ui/coverage/
-ui/build/
-ui/.next/
-ui/.nuxt/
-ui/.cache/
-ui/.eslintcache
-ui/.yarn/install-state.gz
 
-# System Files
-Thumbs.db
-
-# binary
+# Binary
 echohttp
 echo.db

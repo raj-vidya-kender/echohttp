@@ -1,14 +1,14 @@
 # Frontend build stage
-FROM node:22-alpine AS frontend-builder
+FROM node:24-alpine AS frontend-builder
 WORKDIR /app
 COPY . .
 WORKDIR /app/ui
-RUN corepack enable && corepack prepare yarn@4.7.0 --activate
+RUN corepack enable && corepack prepare yarn@4.18.1+sha512.b2e1e7524f654f2749d32b4ebcb4622473cb5bcbc485df2007e12a154e50162a4d795526768bc5f5b8f81717bfd79deb2472813d86fb5ae2eb551fa9c872b08f --activate
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
 # Go build stage
-FROM golang:1.24-alpine AS backend-builder
+FROM golang:1.27-alpine AS backend-builder
 WORKDIR /app
 RUN apk add --no-cache gcc musl-dev sqlite-dev
 COPY go.mod go.sum ./

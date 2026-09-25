@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 interface RequestData {
   timestamp: string;
-  data: any;
+  data: unknown;
   headers: Record<string, string[]>;
 }
 
@@ -33,7 +33,7 @@ export function RequestList() {
     return () => clearInterval(interval);
   }, []);
 
-  const formatData = (data: any): string => {
+  const formatData = (data: unknown): string => {
     if (typeof data === 'string') {
       try {
         // Try to parse as JSON
